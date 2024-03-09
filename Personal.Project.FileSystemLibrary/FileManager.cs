@@ -1,5 +1,6 @@
 ﻿using Personal.Project.ValidationLibrary;
 using System.IO.Compression;
+using System.Security.AccessControl;
 
 namespace Personal.Project.FileSystemLibrary
 {
@@ -14,6 +15,11 @@ namespace Personal.Project.FileSystemLibrary
         /// Путь до папки с временными файлами.
         /// </summary>
         private const string _tempFilePath = "Temp";
+        
+        /// <summary>
+        /// Расширение файлов Excel для поиска.
+        /// </summary>
+        private const string _excelExtension = "*.xlsx";
         #endregion
 
         #region Methods: Public
@@ -53,7 +59,7 @@ namespace Personal.Project.FileSystemLibrary
         }
 
         /// <summary>
-        /// Выполняет разархивацию архива по заданному пути.
+        /// Выполняет распаковку архива по заданному пути.
         /// </summary>
         /// <param name="zipFileStream">Поток архива.</param>
         /// <param name="destinationPath">Путь назначения.</param>
@@ -62,8 +68,17 @@ namespace Personal.Project.FileSystemLibrary
             ObjectValidator<Stream>.CheckIsNull(zipFileStream);
             StringValidator.CheckIsNullOrWhitespace(destinationPath);
             CheckPathExists(destinationPath);
-
             ZipFile.ExtractToDirectory(zipFileStream, destinationPath);
+        }
+
+        /// <summary>
+        /// Находит и возвращает список путей до файлов Excel в директории.
+        /// </summary>
+        /// <param name="directoryPath">Путь до директория.</param>
+        /// <returns>Список путей до Excel файлов.</returns>
+        public static IEnumerable<string> FindAllExcelPaths(string directoryPath)
+        {
+            return Directory.EnumerateFiles(directoryPath, _excelExtension, SearchOption.AllDirectories);
         }
         #endregion
     }
