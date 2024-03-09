@@ -6,17 +6,20 @@
     /// </summary>
     public static class StringValidator
     {
+        #region Methods: Public
         /// <summary>
-        /// Проверяет строку на пробелы и пустоту.
+        /// Проверяет, что строка не пустая и не состоит и пробелов.
         /// </summary>
-        /// <param name="str">Проверяемая строка.</param>
-        public static void CheckWhitespaceOrNull(string str)
+        /// <param name="value">Проверяемая строка.</param>
+        /// <exception cref="ArgumentNullException">Строка не может быть пустой.</exception>
+        public static void CheckIsNullOrWhitespace(string value)
         {
-            if (string.IsNullOrWhiteSpace(str))
+            if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException("Строка не должна быть пустой.", nameof(str));
+                throw new ArgumentNullException("Строка не может быть пустой", nameof(value));
             }
         }
+        #endregion
     }
     #endregion
 }

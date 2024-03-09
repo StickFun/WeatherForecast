@@ -1,3 +1,5 @@
+using Personal.Project.DatabaseLibrary.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

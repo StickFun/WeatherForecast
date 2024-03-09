@@ -1,34 +1,34 @@
 ﻿namespace Personal.Project.DatabaseLibrary.Repositories
 {
     #region Interface: IRepository
-    internal interface IRepository<T> : IDisposable 
-        where T : class
+    internal interface IRepository<TEntity> : IDisposable 
+        where TEntity : class
     {
         #region Methods
         /// <summary>
         /// Возвращает все записи сущности.
         /// </summary>
         /// <returns>IEnumerable записей в базе данных.</returns>
-        IEnumerable<T> GetAll();
+        IEnumerable<TEntity> GetAll();
 
         /// <summary>
         /// Возвращает запись по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <returns>Запись сущности.</returns>
-        T GetRecord(Guid id);
+        TEntity GetRecord(Guid id);
 
         /// <summary>
         /// Создает новую запись.
         /// </summary>
         /// <param name="record">Запись.</param>
-        void Create(T record);
+        void Create(TEntity record);
 
         /// <summary>
         /// Редактирует существующую запись.
         /// </summary>
         /// <param name="record">Запись.</param>
-        void Update(T record);
+        void Update(TEntity record);
 
         /// <summary>
         /// Удаляет запись по идентификатору.
