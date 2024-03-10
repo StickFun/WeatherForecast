@@ -1,10 +1,10 @@
 ﻿namespace Personal.Project.FileSystemLibrary.Enums
 {
-    #region Enum: WeatherForecastFieldType
+    #region Enum: WeatherForecastolumnSequence
     /// <summary>
     /// Определяет последовательность полей записи прогноза погоды.
     /// </summary>
-    internal enum WeatherForecastFieldSequence
+    internal enum WeatherForecastColumnSequence
     {
         Date,
         Time,

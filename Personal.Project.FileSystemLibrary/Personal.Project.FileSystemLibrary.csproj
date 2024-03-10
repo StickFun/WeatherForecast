@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Personal.Project.DatabaseLibrary\Personal.Project.DatabaseLibrary.csproj" />
     <ProjectReference Include="..\Personal.Project.ValidationLibrary\Personal.Project.ValidationLibrary.csproj" />
   </ItemGroup>
 

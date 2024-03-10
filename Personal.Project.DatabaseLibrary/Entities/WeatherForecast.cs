@@ -1,4 +1,6 @@
-﻿namespace Personal.Project.DatabaseLibrary.Entities
+﻿using Personal.Project.DatabaseLibrary.Adapters;
+
+namespace Personal.Project.DatabaseLibrary.Entities
 {
     #region Class: WeatherForecast
     /// <summary>
@@ -25,7 +27,12 @@
         /// <summary>
         /// Относительная влажность воздуха в процентах.
         /// </summary>
-        public int RelativeAirHumidityPercent { get; set; }
+        public float RelativeAirHumidityPercent { get; set; }
+
+        /// <summary>
+        /// Точка росы.
+        /// </summary>
+        public float DewPoint { get; set; }
 
         /// <summary>
         /// Атмосферное давление.
@@ -36,6 +43,11 @@
         /// Направление ветра.
         /// </summary>
         public int WindDirection { get; set; }
+
+        /// <summary>
+        /// Скорость ветра.
+        /// </summary>
+        public int WindSpeed { get; set; }
 
         /// <summary>
         /// Облачность.
@@ -55,12 +67,19 @@
         /// <summary>
         /// Погодные явления.
         /// </summary>
-        public required string WeatherEvents { get; set; }
+        public string WeatherEvents { get; set; }
 
         /// <summary>
         /// Идентификатор архива.
         /// </summary>
         public Guid WeatherArchiveId { get; set; }
+        #endregion
+
+        #region Methods: Public
+        public override string ToString()
+        {
+            return $"{ForecastDatetime} | {WindDirectionAdapter.ConvertToStringValue(WindDirection)} | {AirTemperature}";
+        }
         #endregion
     }
     #endregion
