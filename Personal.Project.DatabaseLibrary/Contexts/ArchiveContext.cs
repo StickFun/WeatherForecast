@@ -3,17 +3,17 @@ using Personal.Project.DatabaseLibrary.Entities;
 
 namespace Personal.Project.DatabaseLibrary.Contexts
 {
-    #region Class: WeatherForecastContext
+    #region Class: ArchiveContext
     /// <summary>
-    /// Контекст прогнозов погоды.
+    /// Контекст сущности архива погоды базы данных.
     /// </summary>
-    public class WeatherForecastContext : DbContext
+    public class ArchiveContext : DbContext
     {
         #region Properties: Public
         /// <summary>
-        /// Записи сущности прогнозов погоды.
+        /// Записи сущности архивов.
         /// </summary>
-        public DbSet<WeatherForecast> WeatherForecasts { get; set; } = null!;
+        public DbSet<Archive> WeatherArchives { get; set; }
         #endregion
 
         #region Methods: Private
@@ -22,15 +22,15 @@ namespace Personal.Project.DatabaseLibrary.Contexts
         /// </summary>
         /// <param name="connectionString">Строка подключения.</param>
         /// <returns>Настройки контекста базы данных.</returns>
-        private static DbContextOptions<WeatherForecastContext> GetDbContextOptions(string connectionString)
+        private static DbContextOptions<ArchiveContext> GetDbContextOptions(string connectionString)
         {
-            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder<WeatherForecastContext>(), connectionString).Options;
+            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder<ArchiveContext>(), connectionString).Options;
         }
         #endregion
 
         #region Constructors: Public
-        public WeatherForecastContext(string connectionString)
-            : base(GetDbContextOptions(connectionString))
+        public ArchiveContext(string connectionString)
+            : base(GetDbContextOptions(connectionString)) // Передавать строку напрямую
         {
             Database.EnsureCreated();
         }

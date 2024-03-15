@@ -1,7 +1,7 @@
 ﻿using IronXL;
-using Microsoft.IdentityModel.Tokens;
 using Personal.Project.DatabaseLibrary.Adapters;
 using Personal.Project.DatabaseLibrary.Entities;
+using Personal.Project.DatabaseLibrary.Repositories;
 using Personal.Project.FileSystemLibrary.Enums;
 using Personal.Project.ValidationLibrary;
 using System.Diagnostics;
@@ -29,14 +29,61 @@ namespace Personal.Project.FileSystemLibrary
         /// Индекс строки заголовков.
         /// </summary>
         private const int _rowHeaderIndex = 2;
+
+        /// <summary>
+        /// Словарь последовательности колонки прогноза погоды и названия заголовка.
+        /// </summary>
+        private readonly Dictionary<WeatherForecastColumnSequence, string> _columnHeaderNameDictionary =
+            new Dictionary<WeatherForecastColumnSequence, string>()
+            {
+                { WeatherForecastColumnSequence.Date, "Дата" },
+                { WeatherForecastColumnSequence.Time, "Время" },
+                { WeatherForecastColumnSequence.AirTemperature, "Т" },
+                { WeatherForecastColumnSequence.RelativeAirHumidityPercent, "Отн. влажность" },
+                { WeatherForecastColumnSequence.DewPoint, "Td" },
+                { WeatherForecastColumnSequence.AtmosphericPressure, "Атм. давление," },
+                { WeatherForecastColumnSequence.WindDirection, "Направление" },
+                { WeatherForecastColumnSequence.WindSpeed, "Скорость" },
+                { WeatherForecastColumnSequence.Cloudiness, "Облачность," },
+                { WeatherForecastColumnSequence.LowerCloudEdge, "h" },
+                { WeatherForecastColumnSequence.HorizontalVisibility, "VV" },
+                { WeatherForecastColumnSequence.WeatherEvents, "Погодные явления" },
+            };
+
+        /// <summary>
+        /// Репозиторий прогнозов погоды.
+        /// </summary>
+        private ForecastRepository _weatherForecastRepository;
+
+        /// <summary>
+        /// Идентификатор архива прогнозов.
+        /// </summary>
+        private Guid _archiveId;
         #endregion
 
         #region Methods: Public
         /// <summary>
+        /// Устанавливает репозиторий прогнозов погоды, куда будут добавляться записи.
+        /// </summary>
+        /// <param name="weatherForecastRepository">Репозиторий прогнозов погоды.</param>
+        public void SetWeatherRepository(ForecastRepository weatherForecastRepository)
+        {
+            ObjectValidator<ForecastRepository>.CheckIsNull(weatherForecastRepository);
+            _weatherForecastRepository = weatherForecastRepository;
+        }
+
+        /// <summary>
         /// Добавляет прочитанные записи прогнозов погоды в базу данных.
         /// </summary>
-        public void ParseRecordsToDatabase()
+        public void ParseArchiveRecordsToDatabase(Guid archiveId)
         {
+            if (archiveId == Guid.Empty)
+            {
+                throw new ArgumentException("Идентификатор архива не может быть пустым.", nameof(archiveId));
+            }
+
+            _archiveId = archiveId;
+
             foreach (var excelPath in _excelFilePaths)
             {
                 // todo: добавить проверку на занятость другим процессом.
@@ -44,18 +91,22 @@ namespace Personal.Project.FileSystemLibrary
 
                 foreach (var workSheet in workBook.WorkSheets)
                 {
-                    ProcessWorkSheet(workSheet);
+                    AddWorkSheetToDatabase(workSheet);
                 }
             }
+
+            _weatherForecastRepository.Save();
         }
         #endregion
 
         #region Methods: Private
         /// <summary>
-        /// Удаляет пути до невалидных таблиц.
+        /// Удаляет пути до некорректных таблиц.
         /// </summary>
         private void RemoveInvalidWorkBooks()
         {
+            var invalidWorkBooksPath = new List<string>();
+
             foreach (var excelPath in _excelFilePaths)
             {
                 var workBook = WorkBook.Load(excelPath);
@@ -74,23 +125,45 @@ namespace Personal.Project.FileSystemLibrary
 
                 if (!isValidWorkBook)
                 {
-                    _excelFilePaths.Remove(excelPath);
+                    invalidWorkBooksPath.Add(excelPath);
                 }
+            }
+
+            foreach (var workBookPath in invalidWorkBooksPath)
+            {
+                _excelFilePaths.Remove(workBookPath);
             }
         }
 
+        /// <summary>
+        /// Проверяет строку названий заголовков прогноза погоды.
+        /// </summary>
+        /// <param name="row">Строка названий заголовков.</param>
+        /// <returns>True, если строка содержит корректные названия. Иначе False.</returns>
         private bool IsValidHeaderRow(RangeRow row)
         {
             var cellIndex = 0;
+            var isValidHeader = true;
 
             foreach (var cell in row)
             {
+                if (cell.Text != _columnHeaderNameDictionary.GetValueOrDefault((WeatherForecastColumnSequence)cellIndex))
+                {
+                    isValidHeader = false; 
+                    break;
+                }
+
                 cellIndex++;
             }
-            return true;
+
+            return isValidHeader;
         }
 
-        private void ProcessWorkSheet(WorkSheet workSheet)
+        /// <summary>
+        /// Обрабатывает страницу из Excel таблицы и добавляет записи в базу данных.
+        /// </summary>
+        /// <param name="workSheet">Страница Excel.</param>
+        private void AddWorkSheetToDatabase(WorkSheet workSheet)
         {
             var rowIndex = _rowIndexDataStart;
 
@@ -101,8 +174,9 @@ namespace Personal.Project.FileSystemLibrary
                 try
                 {
                     var parsedWeatherForecast = ParseWeatherForecastRecord(row);
+                    parsedWeatherForecast.ArchiveId = _archiveId;
                     Console.WriteLine(parsedWeatherForecast);
-                    // todo: добавить запись прогноза погоды.
+                    _weatherForecastRepository.Create(parsedWeatherForecast);
                 }
                 catch (ArgumentException ex)
                 {
@@ -120,69 +194,56 @@ namespace Personal.Project.FileSystemLibrary
         /// <param name="row">Строка Excel.</param>
         /// <returns>Объект WeatherForecast.</returns>
         /// <exception cref="ArgumentException">Не удалось получить значение ячейки.</exception>
-        private static WeatherForecast ParseWeatherForecastRecord(RangeRow row)
+        private static Forecast ParseWeatherForecastRecord(RangeRow row)
         {
             var cellIndex = 0;
-            var weatherForecast = new WeatherForecast();
+            var weatherForecast = new Forecast();
             
             foreach (var cell in row)
             {
                 switch ((WeatherForecastColumnSequence)cellIndex)
                 {
                     case WeatherForecastColumnSequence.Date:
-                        if (!DateTime.TryParse(cell.Text, out DateTime date))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && DateTime.TryParse(cell.Text, out DateTime date))
                         {
-                            throw new ArgumentException($"Не удалось получить значение даты. [{cell.Address}]");
+                            weatherForecast.ForecastDatetime = date;
                         }
-
-                        weatherForecast.ForecastDatetime = date;
                         break;
                     case WeatherForecastColumnSequence.Time:
-                        if (!TimeSpan.TryParse(cell.Text, out TimeSpan time))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && TimeSpan.TryParse(cell.Text, out TimeSpan time))
                         {
-                            throw new ArgumentException($"Не удалось получить значение времени. [{cell.Address}]");
+                            weatherForecast.ForecastDatetime = weatherForecast.ForecastDatetime + time;
                         }
-
-                        weatherForecast.ForecastDatetime = weatherForecast.ForecastDatetime + time;
                         break;
                     case WeatherForecastColumnSequence.AirTemperature:
-                        if (!float.TryParse(cell.Text, out float airTemperature))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float airTemperature))
                         {
-                            throw new ArgumentException($"Не удалось получить значение температуры воздуха. [{cell.Address}]");
+                            weatherForecast.AirTemperature = airTemperature;
                         }
-
-                        weatherForecast.AirTemperature = airTemperature;
                         break;
                     case WeatherForecastColumnSequence.RelativeAirHumidityPercent:
-                        if (!float.TryParse(cell.Text, out float relativeAirHumidityPercent))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float relativeAirHumidityPercent))
                         {
-                            throw new ArgumentException($"Не удалось получить значение относительной влажности воздуха. [{cell.Address}]");
+                            weatherForecast.RelativeAirHumidityPercent = relativeAirHumidityPercent;
                         }
-
-                        weatherForecast.RelativeAirHumidityPercent = relativeAirHumidityPercent;
                         break;
                     case WeatherForecastColumnSequence.DewPoint:
-                        if (!float.TryParse(cell.Text, out float dewPoint))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float dewPoint))
                         {
-                            throw new ArgumentException($"Не удалось получить значение точки росы. [{cell.Address}]");
+                            weatherForecast.DewPoint = dewPoint;
                         }
-
-                        weatherForecast.DewPoint = dewPoint;
                         break;
                     case WeatherForecastColumnSequence.AtmosphericPressure:
-                        if (!float.TryParse(cell.Text, out float atmosphericPressure))
+                        if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float atmosphericPressure))
                         {
-                            throw new ArgumentException($"Не удалось получить значение атмосферного давления. [{cell.Address}]");
+                            weatherForecast.AtmosphericPressure = atmosphericPressure;
                         }
-
-                        weatherForecast.AtmosphericPressure = atmosphericPressure;
                         break;
                     case WeatherForecastColumnSequence.WindDirection:
-                        if (string.IsNullOrWhiteSpace(cell.Text))
+                        if (!string.IsNullOrWhiteSpace(cell.Text))
                         {
                             weatherForecast.WindDirection = WindDirectionAdapter.ConvertToIntValue(cell.Text);
                         }
-                        
                         break;
                     case WeatherForecastColumnSequence.WindSpeed:
                         if (!string.IsNullOrWhiteSpace(cell.Text) && int.TryParse(cell.Text, out int windSpeed))
@@ -237,6 +298,7 @@ namespace Personal.Project.FileSystemLibrary
             }
 
             _excelFilePaths = excelFilePaths;
+            RemoveInvalidWorkBooks();
         }
         #endregion
     }

@@ -63,7 +63,7 @@ namespace Personal.Project.FileSystemLibrary
         /// </summary>
         /// <param name="zipFileStream">Поток архива.</param>
         /// <param name="destinationPath">Путь назначения.</param>
-        public static void UnzipTo(Stream zipFileStream, string destinationPath)
+        public static void ExtractTo(Stream zipFileStream, string destinationPath)
         {
             ObjectValidator<Stream>.CheckIsNull(zipFileStream);
             StringValidator.CheckIsNullOrWhitespace(destinationPath);
@@ -72,13 +72,27 @@ namespace Personal.Project.FileSystemLibrary
         }
 
         /// <summary>
+        /// Удаляет папку по заданному пути.
+        /// </summary>
+        /// <param name="path">Путь до папки.</param>
+        public static void RemoveFolder(string path)
+        {
+            StringValidator.CheckIsNullOrWhitespace(path);
+            
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
+        /// <summary>
         /// Находит и возвращает список путей до файлов Excel в директории.
         /// </summary>
         /// <param name="directoryPath">Путь до директория.</param>
         /// <returns>Список путей до Excel файлов.</returns>
-        public static IEnumerable<string> FindAllExcelPaths(string directoryPath)
+        public static List<string> FindAllExcelPaths(string directoryPath)
         {
-            return Directory.EnumerateFiles(directoryPath, _excelExtension, SearchOption.AllDirectories);
+            return Directory.EnumerateFiles(directoryPath, _excelExtension, SearchOption.AllDirectories).ToList();
         }
         #endregion
     }

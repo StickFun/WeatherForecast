@@ -4,17 +4,17 @@ using Personal.Project.ValidationLibrary;
 
 namespace Personal.Project.DatabaseLibrary.Repositories
 {
-    #region Class: WeatherForecastRepository
+    #region Class: ArchiveRepository
     /// <summary>
-    /// Репозиторий сущности прогноза погоды.
+    /// Репозиторий сущности архивов.
     /// </summary>
-    internal class WeatherForecastRepository : IRepository<WeatherForecast>
+    public class ArchiveRepository : IRepository<Archive>
     {
         #region Fields: Private
         /// <summary>
-        /// Контекст прогнозов погоды.
+        /// Контекст сущности архивов прогнозов погоды.
         /// </summary>
-        private readonly WeatherForecastContext _weatherForecastContext;
+        private readonly ArchiveContext _context;
 
         /// <summary>
         /// Отвечает за утилизацию объекта.
@@ -23,40 +23,20 @@ namespace Personal.Project.DatabaseLibrary.Repositories
         #endregion
 
         #region Methods: Public
-        public void Create(WeatherForecast record)
+        public void Create(Archive record)
         {
-            ObjectValidator<WeatherForecast>.CheckIsNull(record);
-            _weatherForecastContext.WeatherForecasts.Add(record);
+            ObjectValidator<Archive>.CheckIsNull(record);
+            _context.WeatherArchives.Add(record);
         }
 
         public void Delete(Guid id)
         {
-            var record = _weatherForecastContext.WeatherForecasts.Find(id);
+            var record = _context.WeatherArchives.Find(id);
 
             if (record != null)
             {
-                _weatherForecastContext.WeatherForecasts.Remove(record);
+                _context.WeatherArchives.Remove(record);
             }
-        }
-
-        public IEnumerable<WeatherForecast> GetAll()
-        {
-            return _weatherForecastContext.WeatherForecasts;
-        }
-
-        public WeatherForecast GetRecord(Guid id)
-        {
-            return _weatherForecastContext.WeatherForecasts.Find(id);
-        }
-
-        public void Save()
-        {
-            _weatherForecastContext.SaveChanges();
-        }
-
-        public void Update(WeatherForecast record)
-        {
-            ObjectValidator<WeatherForecast>.CheckIsNull(record);
         }
 
         /// <summary>
@@ -69,7 +49,7 @@ namespace Personal.Project.DatabaseLibrary.Repositories
             {
                 if (disposing)
                 {
-                    _weatherForecastContext.Dispose();
+                    _context.Dispose();
                 }
             }
 
@@ -84,13 +64,33 @@ namespace Personal.Project.DatabaseLibrary.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public IEnumerable<Archive> GetAll()
+        {
+            return _context.WeatherArchives;
+        }
+
+        public Archive GetRecord(Guid id)
+        {
+            return _context.WeatherArchives.Find(id);
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+        public void Update(Archive record)
+        {
+            ObjectValidator<Archive>.CheckIsNull(record);
+            _context.WeatherArchives.Update(record);
+        }
         #endregion
 
         #region Constructors: Public
-        public WeatherForecastRepository(string connectionString)
+        public ArchiveRepository()
         {
-            StringValidator.CheckIsNullOrWhitespace(connectionString);
-            _weatherForecastContext = new WeatherForecastContext(connectionString);
+            _context = new ArchiveContext("Data Source=LAPTOP;Initial Catalog=WeatherForecast;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
         #endregion
     }
