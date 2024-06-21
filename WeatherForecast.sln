@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Personal.Project.Validation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Personal.Project.FileSystemLibrary", "Personal.Project.FileSystemLibrary\Personal.Project.FileSystemLibrary.csproj", "{49199427-1778-4285-A399-1D2124691DC5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Personal.Project.DemoConsoleApp", "Personal.Project.DemoConsoleApp\Personal.Project.DemoConsoleApp.csproj", "{9401CECA-A446-4C60-A29E-72E94098A190}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OldSolution", "OldSolution", "{505305E0-6FA7-44E7-85CC-164121D01B39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickFun.WeatherForecast.Infrastructure", "StickFun.WeatherForecast.Infrastructure\StickFun.WeatherForecast.Infrastructure.csproj", "{6DB6356F-624C-4FA0-8210-73D1F68B41D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickFun.WeatherForecast.Domain", "StickFun.WeatherForecast.Domain\StickFun.WeatherForecast.Domain.csproj", "{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StickFun.WeatherForecast.Application", "StickFun.WeatherForecast.Application\StickFun.WeatherForecast.Application.csproj", "{285084DF-5833-408A-92E3-7E1D3B3B0A66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,13 +41,27 @@ Global
 		{49199427-1778-4285-A399-1D2124691DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49199427-1778-4285-A399-1D2124691DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49199427-1778-4285-A399-1D2124691DC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9401CECA-A446-4C60-A29E-72E94098A190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9401CECA-A446-4C60-A29E-72E94098A190}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9401CECA-A446-4C60-A29E-72E94098A190}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9401CECA-A446-4C60-A29E-72E94098A190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB6356F-624C-4FA0-8210-73D1F68B41D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB6356F-624C-4FA0-8210-73D1F68B41D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB6356F-624C-4FA0-8210-73D1F68B41D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB6356F-624C-4FA0-8210-73D1F68B41D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285084DF-5833-408A-92E3-7E1D3B3B0A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285084DF-5833-408A-92E3-7E1D3B3B0A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285084DF-5833-408A-92E3-7E1D3B3B0A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285084DF-5833-408A-92E3-7E1D3B3B0A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6B325D1D-4CD8-43F9-AED6-2C0170843C83} = {505305E0-6FA7-44E7-85CC-164121D01B39}
+		{DAF83FFD-C839-4972-B1C3-A79B6941DB1E} = {505305E0-6FA7-44E7-85CC-164121D01B39}
+		{0673204B-9E10-47C8-B115-E3F4F22B3A9C} = {505305E0-6FA7-44E7-85CC-164121D01B39}
+		{49199427-1778-4285-A399-1D2124691DC5} = {505305E0-6FA7-44E7-85CC-164121D01B39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9EBF1DF-617C-419C-878F-AE7614248E77}
