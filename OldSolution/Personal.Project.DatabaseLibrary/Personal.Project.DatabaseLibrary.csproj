@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Personal.Project.ValidationLibrary\Personal.Project.ValidationLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
+
 </Project>

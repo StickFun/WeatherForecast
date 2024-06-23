@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Personal.Project.DatabaseLibrary\Personal.Project.DatabaseLibrary.csproj" />
     <ProjectReference Include="..\Personal.Project.FileSystemLibrary\Personal.Project.FileSystemLibrary.csproj" />
+    <ProjectReference Include="..\Personal.Project.ValidationLibrary\Personal.Project.ValidationLibrary.csproj" />
   </ItemGroup>
 
 </Project>
