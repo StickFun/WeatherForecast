@@ -1,17 +1,16 @@
-﻿using WeatherForecast.Application.Abstractions;
-using WeatherForecast.Domain.Abstractions;
+﻿using WeatherForecast.Domain.Abstractions;
 
 namespace WeatherForecast.Application.Models;
 
-internal class ExcelDataFile(IWeatherForecastParser parser) : IDataFile
+internal class ExcelDataFile : IDataFile
 {
     public string FilePath { get; set; }
 
-    public string GetFilePath()
-        => FilePath;
+    public Guid ArchiveId { get; set; }
 
-    public Task Process()
-    {
-        parser.ExcelFileToDatabase(FilePath);
-    }
+    public string GetFilePath()
+        => FilePath;    
+
+    public Guid GetGuid()
+        => ArchiveId;
 }

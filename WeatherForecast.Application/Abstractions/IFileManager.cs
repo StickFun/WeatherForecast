@@ -8,7 +8,7 @@ public interface IFileManager
 
     bool IsDirectoryExists(string directoryPath);
 
-    string CreateTempDirectory();
+    string CreateDirectory(string directoryPath);
 
     List<string> GetExcelFilePaths(string directoryPath);
 }

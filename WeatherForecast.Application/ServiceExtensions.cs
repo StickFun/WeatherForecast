@@ -12,5 +12,6 @@ public static class ServiceExtensions
     internal static IServiceCollection AddCommon(this IServiceCollection services)
         => services
         .AddTransient<IDataFileProvider, DataFileProvider>()
+        .AddTransient<IDataFileProcessor, ExcelDataFileProcessor>()
         .AddSingleton<IWeatherForecastContext, WeatherForecastContext>();
 }

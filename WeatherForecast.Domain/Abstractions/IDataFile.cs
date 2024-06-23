@@ -4,5 +4,5 @@ public interface IDataFile
 {
     string GetFilePath();
 
-    public Task Process();
+    Guid GetGuid();
 }

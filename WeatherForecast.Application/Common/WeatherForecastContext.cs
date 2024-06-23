@@ -1,6 +1,10 @@
 ﻿using WeatherForecast.Domain.Abstractions;
+
 namespace WeatherForecast.Application.Common;
 
-internal class WeatherForecastContext : IWeatherForecastContext
+public class WeatherForecastContext : IWeatherForecastContext
 {
+    public string DatabaseConnectionString { get; set; }
+
+    public string CurrentDataFileDirectoryPath { get; set; }
 }
