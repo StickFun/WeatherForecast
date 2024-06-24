@@ -21,8 +21,8 @@ internal class FileManager : IFileManager
             Directory.Delete(directoryPath, true);
     }
 
-    public void ExtractTo(string zipFilePath, string destinationDirectoryPath)
-        => ZipFile.ExtractToDirectory(zipFilePath, destinationDirectoryPath);
+    public void ExtractTo(Stream archiveStream, string destinationDirectoryPath)
+        => ZipFile.ExtractToDirectory(archiveStream, destinationDirectoryPath);
 
     public List<string> GetExcelFilePaths(string directoryPath)
         => Directory.EnumerateFiles(directoryPath, _excelExtension, SearchOption.AllDirectories).ToList();

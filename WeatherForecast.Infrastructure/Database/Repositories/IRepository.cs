@@ -3,7 +3,7 @@ using WeatherForecast.Infrastructure.Database.Entities;
 
 namespace WeatherForecast.Infrastructure.Database.Repositories;
 
-internal interface IRepository<TEntity> : IDisposable
+public interface IRepository<TEntity> : IDisposable
         where TEntity : class, IBaseEntity
 {
     Task<List<TEntity>> GetAll();
