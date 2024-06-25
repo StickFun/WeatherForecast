@@ -22,5 +22,6 @@ internal class ForecastParser(
             record.ArchiveId = ArchiveId;
             forecastRepository.Create(record);
         }
+        forecastRepository.Save();
     }
 }

@@ -2,7 +2,7 @@
 
 public interface IFileManager
 {
-    void ExtractTo(string zipFilePath, string destinationDirectoryPath);
+    void ExtractTo(Stream archiveStream, string destinationDirectoryPath);
 
     void DeleteDirectory(string directoryPath);
 

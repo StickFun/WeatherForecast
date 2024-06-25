@@ -57,7 +57,7 @@ internal class ExcelService(ILogger<ExcelService> logger) : IExcelService
             var row = sheet.GetRow(rowIndex);
             rowIndex++;
 
-            forecasts.Append(ParseForecastRecord(row));
+            forecasts.Add(ParseForecastRecord(row));
         }
 
         return forecasts;

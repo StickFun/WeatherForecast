@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace WeatherForecast.Domain;
+namespace WeatherForecast.Domain.Extensions;
 
 public static class ServiceExtensions
 {

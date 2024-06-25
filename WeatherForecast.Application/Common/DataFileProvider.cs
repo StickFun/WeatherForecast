@@ -2,6 +2,7 @@
 using WeatherForecast.Application.Abstractions;
 using WeatherForecast.Application.Models;
 using WeatherForecast.Domain.Abstractions;
+using WeatherForecast.Domain.Exceptions;
 
 namespace WeatherForecast.Application.Common;
 
@@ -13,11 +14,14 @@ internal class DataFileProvider(
 
     public Task<List<IDataFile>> Get()
     {
-        logger.LogInformation("Выполняется получение списка файлов с данными.");
+        logger.LogInformation("Выполняется полwучение списка файлов с данными.");
 
         var currentDataFileDirectoryPath = context.CurrentDataFileDirectoryPath;
         var dataFilePaths = fileManager.GetExcelFilePaths(currentDataFileDirectoryPath);
-        var archiveGuid = Guid.NewGuid();
+
+        if (!Guid.TryParse(Path.GetFileName(currentDataFileDirectoryPath), out var archiveGuid))
+            throw new DomainException($"Не получилось считать GUID из названия папки '{currentDataFileDirectoryPath}'.");
+
         var dataFileList = new List<IDataFile>();
 
         foreach (var filePath in dataFilePaths)
