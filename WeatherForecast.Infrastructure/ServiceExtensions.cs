@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using WeatherForecast.Application.Abstractions;
 using WeatherForecast.Infrastructure.Database.Contexts;
 using WeatherForecast.Infrastructure.Database.Entities;
@@ -18,11 +19,10 @@ public static class ServiceExtensions
 
     internal static IServiceCollection AddDatabase(this IServiceCollection services)
         => services
-        .AddTransient<BaseContext<Forecast>>()
-        .AddTransient<BaseContext<Archive>>()
-        .AddTransient<IRepository<Forecast>, Repository<Forecast>>()
-        .AddTransient<IRepository<Archive>, Repository<Archive>>();
-
+        .AddTransient<ArchiveContext>()
+        .AddTransient<ForecastContext>()
+        .AddTransient<IRepository<Forecast>, ForecastRepository>()
+        .AddTransient<IRepository<Archive>, ArchiveRepository>();
 
     internal static IServiceCollection AddExcel(this IServiceCollection services)
         => services

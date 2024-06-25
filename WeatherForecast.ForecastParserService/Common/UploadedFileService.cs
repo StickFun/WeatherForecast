@@ -17,7 +17,7 @@ public class UploadedFileService(
 {
     private const string _tempDirectoryName = "Temp";
 
-    public Task ProcessZipFile(Stream fileStream, string fileName)
+    public async Task ProcessZipFile(Stream fileStream, string fileName)
     {
         logger.LogInformation("Выполняется обработка архива.");
 
@@ -27,11 +27,17 @@ public class UploadedFileService(
 
         fileManager.CreateDirectory(tempDirectory);
         fileManager.ExtractTo(fileStream, tempDirectory);
-
-        
         
         context.CurrentDataFileDirectoryPath = tempDirectory;
+        var archive = new Archive
+        {
+            Id = directoryGuid,
+            Name = Path.GetFileNameWithoutExtension(fileName)
+        };
 
-        return dataFileParser.ParseWeatherForecast();
+        archiveRepository.Create(archive);
+        archiveRepository.Save();
+
+        dataFileParser.ParseWeatherForecast();
     }
 }

@@ -3,8 +3,7 @@ using WeatherForecast.Infrastructure.Database.Entities;
 
 namespace WeatherForecast.Infrastructure.Database.Contexts;
 
-internal class BaseContext<TEntity> : DbContext
-    where TEntity : class, IBaseEntity
+public class ForecastContext(DbContextOptions<ForecastContext> options) : DbContext(options)
 {
-    public DbSet<TEntity> Entities { get;}
+    public DbSet<Forecast> Forecasts { get; set; }
 }

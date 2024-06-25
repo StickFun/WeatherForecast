@@ -1,24 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using WeatherForecast.Application;
-using WeatherForecast.Application.Common;
 using WeatherForecast.Domain.Extensions;
 using WeatherForecast.ForecastParserService.Extensions;
 using WeatherForecast.Infrastructure;
+using WeatherForecast.Infrastructure.Database.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<DbContext>(options =>
-    options.UseSqlServer(connectionString));
-
 var services = builder.Services
     .AddLogging()
-    .AddDomain()
-    .AddApplication()
+    .AddDbContext<ArchiveContext>(options =>
+        options.UseSqlServer(connectionString))
+    .AddDbContext<ForecastContext>(options =>
+        options.UseSqlServer(connectionString))
     .AddInfrastructure()
+    .AddApplication()
     .AddForecastParserServices()
+    .AddDomain()
 #if DEBUG
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
@@ -41,7 +42,5 @@ else if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
-
-var context = app.Services.GetRequiredService<WeatherForecastContext>();
 
 app.Run();

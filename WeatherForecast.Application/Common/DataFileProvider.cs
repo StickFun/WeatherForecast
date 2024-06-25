@@ -14,12 +14,12 @@ internal class DataFileProvider(
 
     public Task<List<IDataFile>> Get()
     {
-        logger.LogInformation("Выполняется получение списка файлов с данными.");
+        logger.LogInformation("Выполняется полwучение списка файлов с данными.");
 
         var currentDataFileDirectoryPath = context.CurrentDataFileDirectoryPath;
         var dataFilePaths = fileManager.GetExcelFilePaths(currentDataFileDirectoryPath);
 
-        if (!Guid.TryParse(Path.GetDirectoryName(currentDataFileDirectoryPath), out var archiveGuid))
+        if (!Guid.TryParse(Path.GetFileName(currentDataFileDirectoryPath), out var archiveGuid))
             throw new DomainException($"Не получилось считать GUID из названия папки '{currentDataFileDirectoryPath}'.");
 
         var dataFileList = new List<IDataFile>();
