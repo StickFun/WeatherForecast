@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecast.Domain", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecast.Application", "WeatherForecast.Application\WeatherForecast.Application.csproj", "{285084DF-5833-408A-92E3-7E1D3B3B0A66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherForecast.ForecastParserService", "WeatherForecast.ForecastParserService\WeatherForecast.ForecastParserService.csproj", "{AB131E13-3EF2-4E8C-8551-3D1A4B0C6C38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecast.ForecastParserService", "WeatherForecast.ForecastParserService\WeatherForecast.ForecastParserService.csproj", "{AB131E13-3EF2-4E8C-8551-3D1A4B0C6C38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AFAF3C77-0C76-4973-B64A-777D75E7CCFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DB6356F-624C-4FA0-8210-73D1F68B41D4} = {AFAF3C77-0C76-4973-B64A-777D75E7CCFF}
+		{FB9065E4-B1BF-420F-B1F8-20E9AE8BC974} = {AFAF3C77-0C76-4973-B64A-777D75E7CCFF}
+		{285084DF-5833-408A-92E3-7E1D3B3B0A66} = {AFAF3C77-0C76-4973-B64A-777D75E7CCFF}
+		{AB131E13-3EF2-4E8C-8551-3D1A4B0C6C38} = {AFAF3C77-0C76-4973-B64A-777D75E7CCFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9EBF1DF-617C-419C-878F-AE7614248E77}
