@@ -1,0 +1,29 @@
+.main-menu {
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding-top: 3%;
+    width: 25%;
+    margin: 0 auto;
+}
+
+.buttons-container {
+    margin-left: 15%;
+    display: table;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    margin: 2% 0;
+    width: 60%;
+    color: #F5F3F5;
+    background-color: #4582ac;
+    font-size: larger;
+}
+
+h1 {
+    background-color: #FC7A57;
+    color: #F5F3F5;
+    border-radius: 9px;
+}
