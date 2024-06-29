@@ -19,11 +19,22 @@ button {
     width: 60%;
     color: #F5F3F5;
     background-color: #4582ac;
-    font-size: larger;
+    font-size: 110%;
 }
 
 h1 {
     background-color: #FC7A57;
     color: #F5F3F5;
     border-radius: 9px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+hr.rounded {
+    border-top: 5px solid #FC7A57;
+    border-radius: 2px;
+    width: 25%;
 }

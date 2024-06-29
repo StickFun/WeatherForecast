@@ -1,1 +1,11 @@
-<p>upload-archive works!</p>
+<div class="file-upload-container">
+    <input type="file" class="file-input"
+    (change)="onFileSelected($event)" #fileUpload>
+    <div class="file-upload">
+    {{fileName || "Загрузить архив."}}
+    <button mat-mini-fab color="primary" class="upload-btn"
+    (click)="fileUpload.click()">
+        <mat-icon fontIcon="attach_file"></mat-icon>
+    </button>
+    </div>
+</div>
