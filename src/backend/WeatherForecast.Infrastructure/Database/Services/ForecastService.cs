@@ -5,9 +5,9 @@ namespace WeatherForecast.Infrastructure.Database.Services;
 
 internal class ForecastService(IRepository<Forecast> forecastRepository) : IForecastService
 {
-    public Task<List<Forecast>> GetForecasts(int skipCount, int limitCount)
+    public Task<List<Forecast>> GetForecasts(int skip, int take)
         => Task.FromResult(forecastRepository.GetAll()
-            .Skip(skipCount)
-            .Take(limitCount)
+            .Skip(skip)
+            .Take(take)
             .ToList());
 }

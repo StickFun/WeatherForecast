@@ -9,6 +9,6 @@ namespace WeatherForecast.ForecastParserService.Controllers;
 public class ForecastController(IForecastService forecastService) : ControllerBase
 {
     [HttpGet]
-    public Task<List<Forecast>> GetAllRecords(int skip, int offset)
-        => forecastService.GetForecasts(skip, offset);
+    public Task<List<Forecast>> GetAllRecords(int skip, int take)
+        => forecastService.GetForecasts(skip, take);
 }

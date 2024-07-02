@@ -38,6 +38,8 @@ public class UploadedFileService(
         archiveRepository.Create(archive);
         archiveRepository.Save();
 
-        dataFileParser.ParseWeatherForecast();
+        await dataFileParser.ParseWeatherForecast();
+
+        fileManager.DeleteDirectory(tempDirectory);
     }
 }
