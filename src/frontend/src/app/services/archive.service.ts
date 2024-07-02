@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 import { of } from 'rxjs/internal/observable/of';
+import { environment } from '../../environments/environment.development';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArchiveService {
-  private archiveServiceUrl = 'api/archive';
+  private postArchiveEndpoint = 'api/archive';
+  private serviceUrl = environment.forecastParserServiceUrl;
 
   constructor(
     private httpClient: HttpClient,
@@ -18,9 +20,9 @@ export class ArchiveService {
 
   upload(file: File): Observable<any> {
     const formData: FormData = new FormData();
-    formData.append('0', file, file.name);
+    formData.append('file', file, file.name);
 
-    let url = this.archiveServiceUrl;
+    let url = new URL(this.postArchiveEndpoint, this.serviceUrl).toString();
 
     return this.httpClient.post(url, formData).pipe(
       catchError(this.handleError<any>('uploadArchive', []))

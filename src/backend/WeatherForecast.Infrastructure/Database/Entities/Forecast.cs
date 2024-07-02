@@ -13,16 +13,16 @@ public class Forecast : IBaseEntity
     public DateTime Datetime { get; set; }
 
     [Column("AirTemperature")]
-    public float AirTemperature { get; set; }
+    public double AirTemperature { get; set; }
 
     [Column("RelativeAirHumidityPercent")]
-    public float RelativeAirHumidityPercent { get; set; }
+    public int RelativeAirHumidityPercent { get; set; }
 
     [Column("DewPoint")]
-    public float DewPoint { get; set; }
+    public double DewPoint { get; set; }
 
     [Column("AtmosphericPressure")]
-    public float AtmosphericPressure { get; set; }
+    public int AtmosphericPressure { get; set; }
 
     [Column("WindDirection")]
     public int WindDirection { get; set; }

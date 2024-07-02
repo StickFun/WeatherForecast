@@ -85,25 +85,25 @@ internal class ExcelService(ILogger<ExcelService> logger) : IExcelService
                     }
                     break;
                 case ExcelForecastColumnSequence.AirTemperature:
-                    if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float airTemperature))
+                    if (!string.IsNullOrWhiteSpace(cell.Text) && double.TryParse(cell.Text, out var airTemperature))
                     {
                         forecast.AirTemperature = airTemperature;
                     }
                     break;
                 case ExcelForecastColumnSequence.RelativeAirHumidityPercent:
-                    if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float relativeAirHumidityPercent))
+                    if (!string.IsNullOrWhiteSpace(cell.Text) && int.TryParse(cell.Text, out var relativeAirHumidityPercent))
                     {
                         forecast.RelativeAirHumidityPercent = relativeAirHumidityPercent;
                     }
                     break;
                 case ExcelForecastColumnSequence.DewPoint:
-                    if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float dewPoint))
+                    if (!string.IsNullOrWhiteSpace(cell.Text) && double.TryParse(cell.Text, out var dewPoint))
                     {
                         forecast.DewPoint = dewPoint;
                     }
                     break;
                 case ExcelForecastColumnSequence.AtmosphericPressure:
-                    if (!string.IsNullOrWhiteSpace(cell.Text) && float.TryParse(cell.Text, out float atmosphericPressure))
+                    if (!string.IsNullOrWhiteSpace(cell.Text) && int.TryParse(cell.Text, out var atmosphericPressure))
                     {
                         forecast.AtmosphericPressure = atmosphericPressure;
                     }
@@ -119,14 +119,12 @@ internal class ExcelService(ILogger<ExcelService> logger) : IExcelService
                     {
                         forecast.WindSpeed = windSpeed;
                     }
-
                     break;
                 case ExcelForecastColumnSequence.Cloudiness:
                     if (!string.IsNullOrWhiteSpace(cell.Text) && int.TryParse(cell.Text, out int cloudiness))
                     {
                         forecast.Cloudiness = cloudiness;
                     }
-
                     break;
                 case ExcelForecastColumnSequence.LowerCloudEdge:
                     if (!string.IsNullOrWhiteSpace(cell.Text) && int.TryParse(cell.Text, out int lowerCloudEdge))
