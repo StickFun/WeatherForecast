@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeatherForecast.Infrastructure.Database.Entities;
-using WeatherForecast.Infrastructure.Database.Repositories;
+using WeatherForecast.Infrastructure.Database.Services;
 
 namespace WeatherForecast.ForecastParserService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ForecastController(IRepository<Forecast> forecastRepository) : ControllerBase
+public class ForecastController(IForecastService forecastService) : ControllerBase
 {
     [HttpGet]
-    public Task<IEnumerable<Forecast>> GetAllRecords(int skip, int offset)
-        => Task.FromResult(forecastRepository.GetAll());
+    public Task<List<Forecast>> GetAllRecords(int skip, int offset)
+        => forecastService.GetForecasts(skip, offset);
 }

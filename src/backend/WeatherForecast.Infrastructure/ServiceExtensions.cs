@@ -4,6 +4,7 @@ using WeatherForecast.Application.Abstractions;
 using WeatherForecast.Infrastructure.Database.Contexts;
 using WeatherForecast.Infrastructure.Database.Entities;
 using WeatherForecast.Infrastructure.Database.Repositories;
+using WeatherForecast.Infrastructure.Database.Services;
 using WeatherForecast.Infrastructure.Excel;
 
 namespace WeatherForecast.Infrastructure;
@@ -19,6 +20,7 @@ public static class ServiceExtensions
 
     internal static IServiceCollection AddDatabase(this IServiceCollection services)
         => services
+        .AddTransient<IForecastService, ForecastService>()
         .AddTransient<ArchiveContext>()
         .AddTransient<ForecastContext>()
         .AddTransient<IRepository<Forecast>, ForecastRepository>()
