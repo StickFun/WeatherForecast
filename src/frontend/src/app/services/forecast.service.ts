@@ -17,7 +17,6 @@ export class ForecastService {
       private messageService: MessageService) { }
 
       get(skip: number, take: number): Observable<Forecast[]> {
-        debugger;
         let url = new URL(this.getAllForecastsEndpoint, this.serviceUrl).toString();
         url = url.concat(`?skip=${skip}&take=${take}`);
 

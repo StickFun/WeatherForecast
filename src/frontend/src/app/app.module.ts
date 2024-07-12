@@ -11,6 +11,9 @@ import { HomeWeatherForecastComponent } from './home-weather-forecast/home-weath
 import { MonitorForecastsComponent } from './monitor-forecasts/monitor-forecasts.component';
 import { UploadArchiveComponent } from './upload-archive/upload-archive.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { MessagesComponent } from './messages/messages.component';
     MatDividerModule,
     MatIconModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
